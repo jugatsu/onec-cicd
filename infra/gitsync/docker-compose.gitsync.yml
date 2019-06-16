@@ -1,0 +1,33 @@
+version: '3.3'
+
+services:
+
+  gitsync:
+    image: ${DOCKER_REGISTRY}/gitsync:3.0.0
+    command: "all"
+    volumes:
+      - ${PWD}/config/gitsync/config.json:/config.json
+      - ${PWD}/config/lm/nethasp.ini:/opt/1C/v8.3/x86_64/conf/nethasp.ini
+      - ${PWD}/src/cf:/gitsync
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - gitsync_data:/home/usr1cv8/.1cv8
+    environment:
+      - DISPLAY=host.docker.internal:0
+      - GITSYNC_DOMAIN_EMAIL=localhost
+      - GITSYNC_WORKDIR=/gitsync/
+      - GITSYNC_WORKDIR=/
+      - GITSYNC_STORAGE_PATH=tcp://repo/ci
+      - GITSYNC_STORAGE_USER=Администратор
+      - GITSYNC_STORAGE_PASSWORD=
+      - GITSYNC_V8VERSION=8.3.12.1714
+      - GITSYNC_TEMP=./temp/sync
+      - GITSYNC_ALL_TIMER=60
+      - GITSYNC_ALL_CONFIG=/config.json
+    networks:
+      - gitsync_net
+
+volumes:
+  gitsync_data: {}
+
+networks:
+  gitsync_net: {}

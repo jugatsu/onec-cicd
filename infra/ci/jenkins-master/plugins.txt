@@ -1,0 +1,11 @@
+configuration-as-code:1.20
+locale:1.4
+job-dsl:1.74
+git:3.10.0
+github:1.29.4
+allure-jenkins-plugin:2.28.1
+junit:1.28
+cloudbees-folder:6.8
+workflow-aggregator:2.6
+scm-api:2.4.1
+templating-engine:1.1.1

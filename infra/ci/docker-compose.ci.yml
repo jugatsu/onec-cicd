@@ -1,0 +1,91 @@
+version: '3.3'
+
+services:
+
+  jenkins:
+    build:
+      context: ./jenkins-master
+    environment:
+      - "JAVA_OPTS=-Djenkins.install.runSetupWizard=false -Dfile.encoding=UTF-8"
+      - "CASC_JENKINS_CONFIG=/var/jenkins_home/jenkins.yaml"
+    ports:
+      - "8080:8080"
+    volumes:
+      - jenkins_home:/var/jenkins_home
+      - ${PWD}/config/jenkins/jenkins.yaml:/var/jenkins_home/jenkins.yaml
+    networks:
+      - back_net
+
+  slave:
+    image: odavid/jenkins-jnlp-slave:3.29-1-15-alpine
+    privileged: true
+    ports:
+      - "6900:5900"
+    volumes:
+      - ${PWD}/config/slave/docker/daemon.json:/etc/docker/daemon.json
+    environment:
+      - "JENKINS_URL=http://jenkins:8080"
+      - "JENKINS_SECRET=${JENKINS_SLAVE_SECRET}"
+      - "JENKINS_AGENT_NAME=slave"
+      - "DIND=true"
+    networks:
+      - back_net
+    depends_on:
+      - jenkins
+
+  db:
+    image: postgres:9.6-alpine
+    restart: always
+    environment:
+      - "POSTGRES_USER=gitea"
+      - "POSTGRES_PASSWORD=gitea"
+      - "POSTGRES_DB=gitea"
+    volumes:
+      - "gitea_db_data:/var/lib/postgresql/data"
+    networks:
+      - back_net
+
+  git:
+    image: gitea/gitea:1.8
+    restart: always
+    ports:
+      - "10022:22"
+      - "3000:3000"
+    environment:
+      - DB_TYPE=postgres
+      - DB_HOST=db:5432
+      - DB_NAME=gitea
+      - DB_USER=gitea
+      - DB_PASSWD=gitea
+      - DISABLE_REGISTRATION=true
+      - INSTALL_LOCK=true
+    networks:
+       - back_net
+    volumes:
+      - "gitea_data:/data"
+    depends_on:
+      - db
+
+  registry:
+    image: registry:2
+    restart: always
+    ports:
+      - 5000:5000
+    environment:
+      REGISTRY_AUTH: htpasswd
+      REGISTRY_AUTH_HTPASSWD_PATH: /auth/htpasswd
+      REGISTRY_AUTH_HTPASSWD_REALM: "Registry Realm"
+    volumes:
+      - registry_data:/var/lib/registry
+      - ${PWD}/config/registry/auth:/auth
+    networks:
+      - back_net
+
+volumes:
+  jenkins_home: {}
+  gitea_db_data: {}
+  gitea_data: {}
+  registry_data: {}
+
+networks:
+  back_net: {}

@@ -1,0 +1,15 @@
+{   "$schema": "https://raw.githubusercontent.com/silverbulleters/vanessa-runner/develop/vanessa-runner-schema.json",
+    "default": {
+        "--workspace": "/add"
+    },
+    "vanessa": {
+        "--vanessasettings": "/config/vanessaConf.json"
+    },
+
+    "xunit": {
+        "--xddConfig": "./config/xddTestRunnerConf.json",
+        "testsPath": "$addroot/tests/smoke",
+        "--reportsxunit": "ГенераторОтчетаJUnitXML{out/junit/smoke.xml};ГенераторОтчетаAllureXMLВерсия2{out/allure/allure-smoke.xml}",
+        "--xddExitCodePath": "./xddExitCodePath.txt"
+    }
+}

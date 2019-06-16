@@ -1,0 +1,24 @@
+{ "$schema":"https://raw.githubusercontent.com/silverbulleters/vanessa-runner/develop/behavior-schema.json",
+    "ВыполнитьСценарии": true,
+    "ЗавершитьРаботуСистемы": true,
+    "ЗакрытьTestClientПослеЗапускаСценариев": true,
+    "КаталогФич": "$workspaceRoot/features",
+    "СписокТеговИсключение": [
+        "IgnoreOnCIMainBuild",
+        "FirstStart",
+        "Draft"
+    ],
+    "КаталогиБиблиотек": [
+        "./features/Libraries",
+        "$instrumentsRoot/./features/libraries"
+    ],
+    "ДелатьОтчетВФорматеjUnit": true,
+    "ДелатьОтчетВФорматеАллюр": true,
+    "КаталогOutputAllureБазовый": "$workspaceRoot/out/addallure.xml",
+    "КаталогOutputjUnit": "$workspaceRoot/./out/junit/addJunitReport.xml",
+    "ВыгружатьСтатусВыполненияСценариевВФайл": true,
+    "ПутьКФайлуДляВыгрузкиСтатусаВыполненияСценариев": "$workspaceRoot/out/vbStatus.log",
+    "ДелатьЛогВыполненияСценариевВТекстовыйФайл": true,
+    
+    "ИмяФайлаЛогВыполненияСценариев": "$workspaceRoot/out/vbOnline.log"
+}

@@ -1,0 +1,5 @@
+.vagrant
+
+.env
+.DS_Store
+dive.log

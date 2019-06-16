@@ -1,0 +1,44 @@
+version: '3.3'
+
+services:
+
+  srv:
+    image: host.docker.internal:5000/onec-server:${ONEC_VERSION:-8.3.12.1714}
+    hostname: srv
+    volumes:
+      - srv_data:/home/usr1cv8/.1cv8
+      - srv_log:/var/log/1C
+      - ${PWD}/config/server/conf.cfg:/opt/1C/v8.3/x86_64/conf/conf.cfg
+    networks:
+      - ci
+    depends_on:
+      - db
+
+  db:
+    image: rsyuzyov/docker-postgresql-pro-1c:${ONEC_PG_VERSION:-9.6.9}
+    volumes:
+      - db_data:/var/lib/postgresql
+    networks:
+      - ci
+
+  test:
+    image: host.docker.internal:5000/oscript-utils:latest
+    ports:
+      - "5900:5900"
+    volumes:
+      - ${PWD}/config/lm/nethasp.ini:/opt/1C/v8.3/x86_64/conf/nethasp.ini
+      - ${PWD}/config/utils:/config
+      - ${PWD}/features:/add/features
+      - ${PWD}/src/cf:/src/cf
+    environment:
+      - LOGOS_LEVEL=DEBUG
+    networks:
+      - ci
+
+volumes:
+  srv_data: {}
+  srv_log: {}
+  db_data: {}
+
+networks:
+  ci: {}

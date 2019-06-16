@@ -1,0 +1,34 @@
+{
+	"globals": {
+	  "lic-try-count": 5,
+	  "plugins": {
+			"enable": [
+				"increment",
+				"check-authors",
+				"check-comments",
+				"increment",
+				"sync-remote"
+			]
+		},
+		"plugins-config": {
+			"push-n-commits": 0,
+			"push-tags": true,
+			"skip-exists-tags": true,
+			"rename-module": true,
+			"rename-form": true,
+			"push": true
+		}
+	},
+	"repositories": [
+	  {
+			"name": "trade",
+			"path": "tcp://host.docker.internal/demo",
+			"dir": "/gitsync",
+			"temp-dir": "",
+			"v8version": "8.3.12",
+			"plugins-config": {
+				"URL": "http://host.docker.internal:3000/onec/demo.git"
+			}
+		}
+	]
+}

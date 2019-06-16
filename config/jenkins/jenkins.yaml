@@ -1,0 +1,41 @@
+credentials:
+  system:
+    domainCredentials:
+    - credentials:
+      - usernamePassword:
+          id: "91fb1afb-8d19-4ecc-901e-cad0062c18f6"
+          password: "{AQAAABAAAAAQTqBflduPTMQ0LBlaC2M8kyz/0pVHVaBFIxlD3GNQdo0=}"
+          scope: GLOBAL
+          username: "onec"
+jenkins:
+  agentProtocols:
+  - "JNLP4-connect"
+  - "Ping"
+  slaveAgentPort: 50000
+  crumbIssuer:
+    standard:
+      excludeClientIPFromCrumb: false
+  nodes:
+  - permanent:
+      launcher:
+        jnlp:
+          workDirSettings:
+            disabled: false
+            failIfWorkDirIsMissing: false
+            internalDir: "remoting"
+      name: "slave"
+      numExecutors: 1
+      remoteFS: "/home/jenkins"
+      retentionStrategy: "always"
+  systemMessage: "Simple sandbox for learning CI/CD for 1C:Enterprise."
+  remotingSecurity:
+    enabled: false
+
+security:
+  remotingCLI:
+    enabled: false
+
+unclassified:
+  location:
+    adminAddress: "Jenkins Daemon <daemon@localhost>"
+    url: "http://localhost:8080/"
